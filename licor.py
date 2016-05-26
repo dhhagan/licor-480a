@@ -2,6 +2,8 @@
     Read data from a Licor 480A
 
     Written by David H Hagan, May 2016
+
+    t = b'<li840><data><celltemp>5.11</celltemp><cellpres>1.01</cellpres><co2>5.24</co2><raw><co2>324242</co2></raw></data></li840>\r\n'
 '''
 
 import os
@@ -9,6 +11,7 @@ import sys
 import datetime
 import serial
 import time
+from bs4 import BeautifulSoup as bs
 
 # Config Variables
 DEBUG   = True
@@ -26,7 +29,19 @@ class Licor:
         self.timeout    = kwargs.pop('timeout', 20)
         self.debug      = kwargs.pop('debug', True)
 
-        self._header    = ','.join()
+        self._header    = [
+                            'cell_temp',
+                            'cell_pressure',
+                            'co2',
+                            'co2_abs',
+                            'h20',
+                            'h20_abs',
+                            'h20_dewpoint',
+                            'ivolt',
+                            'raw_co2',
+                            'raw_co2_ref',
+                            'raw_h20',
+                            'raw_h20_ref']
 
     def connect(self):
         try:
@@ -39,12 +54,31 @@ class Licor:
         return True
 
     def read(self):
-        data = self.con.readline()
+        # Convert to xml using BeautifulSoup
+        raw = bs(self.con.readline(), 'lxml')
 
         # Make nice and pretty!
+        raw = raw.li840
+        data = [
+            raw.data.celltemp.string,
+            raw.data.cellpres.string,
+            raw.data.co2.string,
+            raw.data.co2abs.string,
+            raw.data.h20.string,
+            raw.data.h20abs.string,
+            raw.data.h20dewpoint.string,
+            raw.data.ivolt.string,
+            raw.data.raw.co2.string,
+            raw.data.raw.co2ref.string,
+            raw.data.raw.h20.string,
+            raw.data.raw.h20ref.string
+            ]
 
         if self.debug:
-            print (data)
+            for each in zip(self._header, data):
+                print (each[0], each[1])
+
+        return data
 
     def __repr__(self):
         return "Licor Model 408A"
@@ -68,14 +102,14 @@ except Exception as e:
 if LOG:
     with open(filename, 'w') as f:
         # Write the headers to a file
-        f.write(licor._header)
+        f.write(','.join(licor._header))
 
         while True:
             # Read from the licor
             data = licor.read()
 
             # Write the data to file
-            f.write(data)
+            f.write(','.join(data))
 
             # Sleep for FREQ seconds
             time.sleep(FREQ)
