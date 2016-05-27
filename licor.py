@@ -3,7 +3,6 @@
 
     Written by David H Hagan, May 2016
 
-    t = b'<li840><data><celltemp>5.11</celltemp><cellpres>1.01</cellpres><co2>5.24</co2><raw><co2>324242</co2></raw></data></li840>\r\n'
 '''
 
 import os
@@ -30,6 +29,7 @@ class Licor:
         self.debug      = kwargs.pop('debug', True)
 
         self._header    = [
+                            'timestamp',
                             'cell_temp',
                             'cell_pressure',
                             'co2',
@@ -60,6 +60,7 @@ class Licor:
         # Make nice and pretty!
         raw = raw.li840
         data = [
+            datetimte.datetime.now(),
             raw.data.celltemp.string,
             raw.data.cellpres.string,
             raw.data.co2.string,
@@ -75,6 +76,7 @@ class Licor:
             ]
 
         if self.debug:
+            print ("\nNew Data Point")
             for each in zip(self._header, data):
                 print (each[0], each[1])
 
@@ -84,7 +86,7 @@ class Licor:
         return "Licor Model 408A"
 
 # Set the filename
-filename = 'licor-data-{}'.format(datetime.datetime.now())
+filename = 'licor-data-{}.csv'.format(datetime.datetime.now())
 
 # If LOG_DIR is set, change to that directory for log purposes
 if LOG_DIR:
