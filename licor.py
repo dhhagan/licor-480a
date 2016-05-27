@@ -59,7 +59,8 @@ class Licor:
 
         # Make nice and pretty!
         raw = raw.li840
-        data = [
+
+        res = [
             datetime.datetime.now().isoformat(),
             raw.data.celltemp.string,
             raw.data.cellpres.string,
@@ -77,7 +78,7 @@ class Licor:
 
         if self.debug:
             print ("\nNew Data Point")
-            for each in zip(self._header, data):
+            for each in zip(self._header, res):
                 print (each[0], each[1])
 
         return data
