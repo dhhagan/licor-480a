@@ -110,12 +110,16 @@ if LOG:
         f.write('\n')
 
         while True:
-            # Read from the licor
-            data = licor.read()
+            try:
+                # Read from the licor
+                data = licor.read()
 
-            # Write the data to file
-            f.write(','.join(data))
-            f.write('\n')
+                # Write the data to file
+                f.write(','.join(data))
+                f.write('\n')
+            except Exception as e:
+                if DEBUG:
+                    print ("ERROR: {}".format(e))
 
             # Sleep for FREQ seconds
             time.sleep(FREQ)
