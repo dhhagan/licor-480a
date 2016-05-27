@@ -93,6 +93,7 @@ if LOG_DIR:
 # Connect to the LICOR
 try:
     licor = Licor( port = PORT, baud = BAUD, timeout = TIMEOUT, debug = DEBUG )
+    licor.connect()
 except Exception as e:
     if DEBUG:
         print ("ERROR: {}".format(e))
