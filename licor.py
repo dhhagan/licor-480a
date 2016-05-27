@@ -64,14 +64,14 @@ class Licor:
             raw.data.cellpres.string,
             raw.data.co2.string,
             raw.data.co2abs.string,
-            raw.data.h20.string,
-            raw.data.h20abs.string,
-            raw.data.h20dewpoint.string,
+            raw.data.h2o.string,
+            raw.data.h2oabs.string,
+            raw.data.h2odewpoint.string,
             raw.data.ivolt.string,
             raw.data.raw.co2.string,
             raw.data.raw.co2ref.string,
-            raw.data.raw.h20.string,
-            raw.data.raw.h20ref.string
+            raw.data.raw.h2o.string,
+            raw.data.raw.h2oref.string
             ]
 
         if self.debug:
