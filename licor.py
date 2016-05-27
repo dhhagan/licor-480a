@@ -104,9 +104,10 @@ except Exception as e:
     sys.exit("Could not connect to the Licor")
 
 if LOG:
-    with open(filename, 'wb') as f:
+    with open(filename, 'w') as f:
         # Write the headers to a file
         f.write(','.join(licor._header))
+        f.write('\n')
 
         while True:
             # Read from the licor
@@ -114,6 +115,7 @@ if LOG:
 
             # Write the data to file
             f.write(','.join(data))
+            f.write('\n')
 
             # Sleep for FREQ seconds
             time.sleep(FREQ)
