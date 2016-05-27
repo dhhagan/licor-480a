@@ -60,7 +60,7 @@ class Licor:
         # Make nice and pretty!
         raw = raw.li840
         data = [
-            datetime.datetime.now(),
+            datetime.datetime.now().isoformat(),
             raw.data.celltemp.string,
             raw.data.cellpres.string,
             raw.data.co2.string,
