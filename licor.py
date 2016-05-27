@@ -81,7 +81,7 @@ class Licor:
             for each in zip(self._header, res):
                 print (each[0], each[1])
 
-        return data
+        return res
 
     def __repr__(self):
         return "Licor Model 408A"
