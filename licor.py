@@ -104,7 +104,7 @@ except Exception as e:
     sys.exit("Could not connect to the Licor")
 
 if LOG:
-    with open(filename, 'w') as f:
+    with open(filename, 'wb') as f:
         # Write the headers to a file
         f.write(','.join(licor._header))
 
